@@ -3,10 +3,11 @@ var prompt = require("prompt");
 
 
 var connection = mysql.createConnection({
-    host : "Bamazon",
+    host : "localhost",
+    port: 3306,
     user : "root",
-    password : "",
-    database : "Bamazon"
+    password : "root",
+    database : "bamazon"
 });
 
 
@@ -60,8 +61,8 @@ var beginApp = function(){
         for (var i = 0; i < products.length; i++) {
             var productsResults = "\r\n"+
             "ItemID: " + products[i].ItemID+"\r\n"+
-            "Product Description: " + products[i].ProductName+"\r\n"+
-            "Department: " + products[i].DepartmentName+"\r\n"+
+            "Product Description: " + products[i].Product+"\r\n"+
+            "Department: " + products[i].Department+"\r\n"+
             "Price: $ "+ products[i].Price+"\r\n"+
             "Current Stock: " + products[i].StockQuantity;
             console.log(productsResults);
@@ -96,12 +97,12 @@ var beginApp = function(){
                         console.log("Apologies but there isn't enough in stock to complete your order. Please try again."+"\r\n"+"\r\n");
                         userSelectID();
                     } else {
-                        console.log("There are "+result[0].StockQuantity+" of "+result[0].ProductName);
-                        console.log("You are purchasing "+ userWantsToBuy +" "+result[0].ProductName+"s at $"+ result[0].Price+" per item.");
+                        console.log("There are "+result[0].StockQuantity+" of "+result[0].Product);
+                        console.log("You are purchasing "+ userWantsToBuy +" "+result[0].Product+"s at $"+ result[0].Price+" per item.");
                         console.log("Your total is $"+totalCost);
                         connection.query('UPDATE Products SET StockQuantity = '+isInStock+' WHERE ItemID ='+userChoiceID, function(err, result){
                         if (err) throw err;
-                            connection.query('SELECT ItemID, ProductName, DepartmentName, Price, StockQuantity FROM products WHERE ItemID ='+userChoiceID, function(err, result){
+                            connection.query('SELECT ItemID, Product, Department, Price, StockQuantity FROM products WHERE ItemID ='+userChoiceID, function(err, result){
                               
                             }); 
                         });
